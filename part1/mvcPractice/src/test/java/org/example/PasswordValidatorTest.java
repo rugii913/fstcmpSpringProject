@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -19,10 +21,11 @@ public class PasswordValidatorTest {
                 .doesNotThrowAnyException();
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("비밀번호가 8자 미만 또는 12자 초과하는 경우 IllegalArgumentException 예외가 발생한다.")
-    void validatePasswordTest2() {
-        assertThatCode(() -> PasswordValidator.validate("aabb"))
+    @ValueSource(strings = {"aabbcce", "aabbccddeeffg"}) // 7자, 13자 경계값
+    void validatePasswordTest2(String password) {
+        assertThatCode(() -> PasswordValidator.validate(password))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(PasswordValidator.WRONG_PASSWORD_LENGTH_EXCEPTION_MESSAGE);
     }
