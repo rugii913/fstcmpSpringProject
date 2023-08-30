@@ -1,6 +1,5 @@
 package org.example.oopPractice.testCodePassword;
 
-import org.example.oopPractice.password.PasswordValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

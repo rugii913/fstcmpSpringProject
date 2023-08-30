@@ -1,7 +1,5 @@
 package org.example.oopPractice.testCodePassword;
 
-import org.example.oopPractice.password.PasswordGenerator;
-
 public class CorrectFixedPasswordGenerator implements PasswordGenerator {
 
     @Override

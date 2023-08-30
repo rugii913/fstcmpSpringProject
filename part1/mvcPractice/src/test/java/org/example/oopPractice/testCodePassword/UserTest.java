@@ -1,7 +1,6 @@
 package org.example.oopPractice.testCodePassword;
 
 import org.assertj.core.api.Assertions;
-import org.example.oopPractice.password.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
