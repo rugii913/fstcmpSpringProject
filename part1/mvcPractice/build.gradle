@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // 임베디드 톰캣
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.80'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.80'
+
+    // 서블릿
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    // jsp
+    implementation 'javax.servlet:jstl:1.2'
+    // 로그백
+    implementation 'ch.qos.logback:logback-classic:1.2.9'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
