@@ -23,4 +23,12 @@ public class CalculatorTest {
 
         assertThat(result).isEqualTo(3);
     }
+
+    @Test
+    @DisplayName("뺄셈 연산을 수행한다.")
+    void subtractionTest() {
+        int result = Calculator.calculate(1, "-", 2);
+
+        assertThat(result).isEqualTo(-1);
+    }
 }
