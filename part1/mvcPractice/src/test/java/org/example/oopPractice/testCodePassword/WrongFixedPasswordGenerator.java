@@ -1,4 +1,6 @@
-package org.example;
+package org.example.oopPractice.testCodePassword;
+
+import org.example.oopPractice.password.PasswordGenerator;
 
 public class WrongFixedPasswordGenerator implements PasswordGenerator {
 
