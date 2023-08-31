@@ -17,4 +17,8 @@ public class Courses {
         }
         return multipliedCreditAndCourseGrade;
     }
+
+    public double calculateTotalCompletedCredit() {
+        return courses.stream().mapToInt(Course::getCredit).sum();
+    }
 }

@@ -13,9 +13,8 @@ public class GradeCalculator {
     public double calculateGrade() {
         // (학점 수 * 교과목 평점)의 합계
         courses.multiplyCreditAndCourseGrade();
-
         // 수강신청 총 학점 수
-        int totalCompletedCredit = courses.stream().mapToInt(Course::getCredit).sum();
+        courses.calculateTotalCompletedCredit();
 
         return multipliedCreditAndCourseGrade / totalCompletedCredit;
     }
