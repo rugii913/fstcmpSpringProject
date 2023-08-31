@@ -2,6 +2,10 @@ package org.example.oopPractice.gradeCalculator;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * 요구사항
  * 평균학점 계산 방법 = (학점 수 * 교과목 평점)의 합계 / 수강신청 총 학점 수
@@ -17,7 +21,13 @@ public class GradeCalculatorTest {
 
     @Test
     void calculateGradeTest() {
+        List<Course> courses = List.of(new Course("OOP", 3, "A+"),
+                new Course("자료구조", 3, "A+"));
 
+        GradeCalculator gradeCalculator = new GradeCalculator(courses); // 학점계산기 객체가 생성될 때 이수 과목들을 전달
+        double gradeResult = gradeCalculator.calculateGrade(); // 이수한 과목을 전달 후, 성적을 계산해달라고 요청
+
+        assertThat(gradeResult).isEqualTo(4.5);
     }
 }
 /*
