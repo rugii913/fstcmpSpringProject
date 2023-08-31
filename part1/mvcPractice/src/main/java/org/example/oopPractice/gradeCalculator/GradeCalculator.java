@@ -10,7 +10,21 @@ public class GradeCalculator {
         this.courses = courses;
     }
 
+    /**
+     * 요구사항
+     * 평균학점 계산 방법 = (학점 수 * 교과목 평점)의 합계 / 수강신청 총 학점 수
+     * 일급 컬렉션 사용
+     */
     public double calculateGrade() {
-        return 4.5;
+        // (학점 수 * 교과목 평점)의 합계
+        double multipliedCreditAndCourseGrade = 0;
+        for (Course course : courses) {
+            multipliedCreditAndCourseGrade += course.getCredit() * course.getGradeToNumber();
+        }
+
+        // 수강신청 총 학점 수
+        int totalCompletedCredit = courses.stream().mapToInt(Course::getCredit).sum();
+
+        return multipliedCreditAndCourseGrade / totalCompletedCredit;
     }
 }
