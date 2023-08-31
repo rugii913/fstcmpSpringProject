@@ -12,6 +12,11 @@ public class Course {
         this.grade = grade;
     }
 
+    public double multiplyCreditAndCourseGrade() {
+        // 항상 getter로 정보를 가져와서 처리하는 방식 이전에, 정보를 가진 해당 객체가 처리하는 방식을 생각해볼 것
+        return credit * getGradeToNumber();
+    }
+
     public int getCredit() {
         return credit;
     }
