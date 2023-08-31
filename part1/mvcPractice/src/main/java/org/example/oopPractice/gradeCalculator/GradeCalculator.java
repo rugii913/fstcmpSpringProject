@@ -12,10 +12,10 @@ public class GradeCalculator {
 
     public double calculateGrade() {
         // (학점 수 * 교과목 평점)의 합계
-        courses.multiplyCreditAndCourseGrade();
+        double totalMultipliedCreditAndCourseGrade = courses.multiplyCreditAndCourseGrade();
         // 수강신청 총 학점 수
-        courses.calculateTotalCompletedCredit();
+        double totalCompletedCredit = courses.calculateTotalCompletedCredit();
 
-        return multipliedCreditAndCourseGrade / totalCompletedCredit;
+        return totalMultipliedCreditAndCourseGrade / totalCompletedCredit;
     }
 }
