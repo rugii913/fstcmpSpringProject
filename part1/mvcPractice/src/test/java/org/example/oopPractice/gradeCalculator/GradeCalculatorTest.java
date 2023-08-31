@@ -1,5 +1,6 @@
 package org.example.oopPractice.gradeCalculator;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class GradeCalculatorTest {
     // 계산기가 직접 작업할 수도 있겠지만 요청하는 것으로 구상: 왜? 과목에는 해당 자료구조에 대한 정보(학점 수, 평점 등)를 갖고 있을 것이기 때문
 
     @Test
+    @DisplayName("평균 학점을 계산한다.")
     void calculateGradeTest() {
         List<Course> courses = List.of(new Course("OOP", 3, "A+"),
                 new Course("자료구조", 3, "A+"));
