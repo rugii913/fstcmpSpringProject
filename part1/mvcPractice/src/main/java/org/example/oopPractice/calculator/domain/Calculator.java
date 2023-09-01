@@ -1,6 +1,6 @@
-package org.example.oopPractice.calculator;
+package org.example.oopPractice.calculator.domain;
 
-import org.example.oopPractice.calculator.operators.*;
+import org.example.oopPractice.calculator.toBe.*;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.example.oopPractice.calculator.operators;
+package org.example.oopPractice.calculator.domain;
 
 public class PositiveNumber { // 양수를 의미하는 객체의 클래스 - value object 관련
     

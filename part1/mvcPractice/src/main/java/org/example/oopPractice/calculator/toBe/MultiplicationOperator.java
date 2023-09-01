@@ -1,4 +1,6 @@
-package org.example.oopPractice.calculator.operators;
+package org.example.oopPractice.calculator.toBe;
+
+import org.example.oopPractice.calculator.domain.PositiveNumber;
 
 public class MultiplicationOperator implements NewArithmeticOperator {
 
