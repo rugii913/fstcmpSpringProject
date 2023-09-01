@@ -16,7 +16,8 @@ public class CustomerTest {
         Menu menu = new Menu(List.of(new MenuItem("돈까스", 5000), new MenuItem("냉면", 7000)));
         Chef chef = new Chef();
 
-        assertThatCode(() -> customer.order("만두", menu, chef)).doesNotThrowAnyException();
+        assertThatCode(() -> customer.order("돈까스", menu, chef)).doesNotThrowAnyException();
+        // 주문할 때 menu와 chef도 같이 전달
     }
 }
 /*
@@ -24,7 +25,7 @@ public class CustomerTest {
  * 객체지향 설계 및 구현 프로세스
  * 1. 설계에 앞서 도메인을 구성하는 객체에는 어떤 것들이 있는지 고민 (클래스에는 x)
  *  - 모든 객체를 전부 생객해낼 순 없으니 일단 생각나는 대로만
- *  => 손님, 메뉴판(o), 돈까스/냉면/만두 등 메뉴 항목(o), 요리사(o), 요리(o)
+ *  => 손님(o), 메뉴판(o), 돈까스/냉면/만두 등 메뉴 항목(o), 요리사(o), 요리(o)
  * 2. 그 객체들 간의 관계를 고민 (클래스들 간의 x)
  *  => 손님 -- 메뉴판
  *  => 손님 -- 요리사
