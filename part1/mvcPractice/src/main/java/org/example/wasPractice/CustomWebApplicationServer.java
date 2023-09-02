@@ -47,6 +47,13 @@ public class CustomWebApplicationServer {
                     while ((line = br.readLine()) != "") {
                         System.out.println(line);
                     }
+                    /**
+                     * 스프링을 이용해서 웹개발을 할 때,
+                     * 위처럼 http 메시지를 파싱을 해서 요청을 판단하고,
+                     * 스프링에 요청을 보내는 작업을 하는 것이 톰캣(기본값)
+                     * 지금 톰캣처럼 was 역할을 해주는 것을 만들어보는 것임
+                     * - http 프로토콜을 어떻게 파싱하고, 어떻게 처리할 것인지
+                     */
                 }
             }
         }
