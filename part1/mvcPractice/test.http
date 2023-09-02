@@ -1,2 +1,3 @@
 # IntelliJ에서 제공하는 http 툴
-GET http://localhost:8080
+# GET /calculate?operand1=11&operator=*&operand2=55 이 방식으로 요청하기로 했었다.
+GET http://localhost:8080/calculate?operand1=11&operator=*&operand2=55
