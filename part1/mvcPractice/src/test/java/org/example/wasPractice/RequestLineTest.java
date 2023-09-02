@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.*;
 /*
  * HttpRequest 객체
  * * http 메시지를 readLine()으로 읽고 나서, HttpRequest라는 객체로 만든다면, 그 내부에는 무엇이 있을까?
- * - requestLine (ex. GET http://localhost:8080/calculate?operand1=11&operator=*&operand2=55 HTTP/1.1)
+ * - requestLine (ex. GET /calculate?operand1=11&operator=*&operand2=55 HTTP/1.1)
  *  - httpMethod
  *  - path
  *  - queryString
@@ -21,7 +21,8 @@ public class RequestLineTest {
 
     @Test
     void create() {
-        RequestLine requestLine = new RequestLine("GET http://localhost:8080/calculate?operand1=11&operator=*&operand2=55 HTTP/1.1");
+        RequestLine requestLine = new RequestLine("GET /calculate?operand1=11&operator=*&operand2=55 HTTP/1.1");
         assertThat(requestLine).isNotNull();
+        assertThat(requestLine).isEqualTo(new RequestLine("GET", "/calculate", "operand1=11&operator=*&operand2=55"));
     }
 }
