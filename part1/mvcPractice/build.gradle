@@ -29,11 +29,19 @@ dependencies {
     // 로그백
     implementation 'ch.qos.logback:logback-classic:1.2.9'
 
+    // 히카리 cp
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    // JDBC
+    implementation 'org.springframework:spring-jdbc:5.3.22'
+
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // assertJ
     testImplementation 'org.assertj:assertj-core:3.23.1'
+
+    // H2
+    testImplementation 'com.h2database:h2:2.1.214'
 }
 
 test {
