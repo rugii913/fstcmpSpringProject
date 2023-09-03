@@ -11,20 +11,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/calculate")
-public class CalculatorServlet implements Servlet {
+public class CalculatorServlet extends GenericServlet {
     /*
       Servlet 인터페이스: 서블릿 컨테이너(ex. 톰캣)와 상호작용하기 위한 메서드들(1.생명주기 관련 메서드들, 2.기타 메타정보 메서드들)
       Servlet - GenericServlet - HttpServlet 차례대로 구현
      */
     private static final Logger log = LoggerFactory.getLogger(CalculatorServlet.class);
-    private ServletConfig servletConfig;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        // Servlet 객체는 싱글톤으로 관리되므로 /calculate 요청이 여러 번 들어와도 init()은 한 번만 호출된다. Tomcat loadServlet() 참고
-        log.info("init");
-        this.servletConfig = servletConfig;
-    }
+    // private ServletConfig servletConfig;
+    // GenericServlet의 경우, service(~)만 구현하는 것도 가능하다.
 
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
@@ -39,6 +33,16 @@ public class CalculatorServlet implements Servlet {
         writer.println(result);
     }
 
+    /*
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        // Servlet 객체는 싱글톤으로 관리되므로 /calculate 요청이 여러 번 들어와도 init()은 한 번만 호출된다. Tomcat loadServlet() 참고
+        log.info("init");
+        this.servletConfig = servletConfig;
+    }
+     */
+
+    /*
     @Override
     public void destroy() {
         // resource release
@@ -53,4 +57,5 @@ public class CalculatorServlet implements Servlet {
     public String getServletInfo() {
         return null;
     }
+     */
 }
