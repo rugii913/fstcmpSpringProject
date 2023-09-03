@@ -19,6 +19,11 @@ public class CustomWebApplicationServer {
         this.port = port;
     }
 
+    /*
+    * Step1- 사용자 요청을 메인 Thread가 처리하도록 한다. (완료)
+    *  - 다른 요청이 들어와도 처리 중인 요청이 끝날 때까지 기다려야하는 문제점
+    * Step2- 사용자 요청이 들어올 때마다 Thread를 새로 생성해서 사용자 요청을 처리하도록 한다.
+    */
     public void start() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             logger.info("[CustomWebApplicationServer] started {} port.", port);
@@ -28,10 +33,6 @@ public class CustomWebApplicationServer {
 
             while ((clientSocket = serverSocket.accept()) != null) {
                 logger.info("[CustomWebApplicationServer] client connected!");
-
-                /**
-                 * Stpe1 - 사용자 요청을 메인 Thread가 처리하도록 한다.
-                 */
 
                 // clientSocket 객체를 사용해서, InputStream, OutputStream 열기
                 try (InputStream in = clientSocket.getInputStream(); OutputStream out = clientSocket.getOutputStream()) {
@@ -56,6 +57,19 @@ public class CustomWebApplicationServer {
 
                         int result = Calculator.calculate(new PositiveNumber(operand1), operator, new PositiveNumber(operand2));
                         byte[] body = String.valueOf(result).getBytes();
+
+                        synchronized (this) { // 간이하게 작성했는데, 심지어 제대로 처리 안 됨
+                            // (참고)
+                            // - IllegalMonitorStateException
+                            // https://jojonari.tistory.com/entry/%EC%9E%90%EB%B0%94java-IllegalMonitorStateException
+                            // - [Java] 자바 동기화 synchronized, wait(), notify()
+                            // https://abcdefgh123123.tistory.com/418
+                            try {
+                                wait(5000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
 
                         HttpResponse response = new HttpResponse(dos);
                         response.response200Header("application/json", body.length);
