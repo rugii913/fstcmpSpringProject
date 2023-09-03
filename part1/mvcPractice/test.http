@@ -4,3 +4,9 @@ GET http://localhost:8080/calculate?operand1=11&operator=*&operand2=55
 ###
 # 서블릿 테스트
 GET http://localhost:8080/mvcPractice/calculate
+###
+# URL에서 +는 예약어이므로 사용할수 없음
+GET http://localhost:8080/calculate?operand1=11&operator=+&operand2=55
+###
+# URL 인코딩(퍼센트 인코딩)한 문자를 사용해야 함
+GET http://localhost:8080/calculate?operand1=11&operator=%2b&operand2=55
