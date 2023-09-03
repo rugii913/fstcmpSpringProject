@@ -14,8 +14,13 @@ dependencies {
     implementation 'org.passay:passay:1.6.1'
 
     // 임베디드 톰캣
-    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.80'
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.80'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:8.5.78'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:8.5.78'
+    // org.apache.catalina.util.SessionIdGeneratorBase createSecureRandom 이후
+    // org.apache.coyote.AbstractProtocol start
+    // 정보: Starting ProtocolHandler ["http-nio-8080"] 로그 안 뜨는 문제
+    // https://coderanch.com/t/696489/application-servers/Unable-Start-Tomcat-Programmatically-Stops
+    // 톰캣 버전 문제였음. 9 -> 8로 내림
 
     // 서블릿
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
