@@ -11,8 +11,9 @@ public class RaceConditionDemo {
         t1.start();
         t2.start();
         t3.start();
+        // race condition: 여러 프로세스 혹은 스레드가 동시에 하나의 자원에 접근하기 위해 경쟁하는 상태
         /*
-         * 결과
+         * 결과 - counter synchronized 전
          * Value for Thread After increment Thread-2 2
          * Value for Thread at last Thread-2 2
          * Value for Thread After increment Thread-3 3
@@ -23,6 +24,15 @@ public class RaceConditionDemo {
          *  - 싱글톤은 상태를 유지(stateful)하게 설계하면 안 됨
          *  - thread safety 하지 않음
          */
-        // race condition: 여러 프로세스 혹은 스레드가 동시에 하나의 자원에 접근하기 위해 경쟁하는 상태
+
+        /*
+         * 결과 - counter synchronized 후
+         * Value for Thread After increment Thread-1 1
+         * Value for Thread at last Thread-1 0
+         * Value for Thread After increment Thread-3 1
+         * Value for Thread at last Thread-3 0
+         * Value for Thread After increment Thread-2 1
+         * Value for Thread at last Thread-2 0
+         */
     }
 }
