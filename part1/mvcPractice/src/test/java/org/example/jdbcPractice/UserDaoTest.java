@@ -1,6 +1,5 @@
 package org.example.jdbcPractice;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -9,12 +8,12 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import java.sql.SQLException;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserDaoTest {
 
     @BeforeEach // 픽스처 - populator에 스크립트 추가, datasource 받아서 populator 실행
-    void setUp() {
+    void setUp() { // 픽스처 만들기 위해 spring의 jdbc datasource 패키지에 있는 것들 사용함(Populator 관련)
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db_schema.sql")); // 클래스 패스에서 스키마 파일 읽어서 스크립트로 추가
         DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
