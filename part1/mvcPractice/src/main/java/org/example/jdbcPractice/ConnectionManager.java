@@ -12,9 +12,10 @@ public class ConnectionManager {
     private static final String DB_URL = "jdbc:h2:mem:localhost/~/mvcPractice;MODE=MySQL;DB_CLOSE_DELAY=-1";
     private static final String DB_USERNAME = "sa";
     private static final String DB_PASSWORD = "";
-    private static final int MAX_POOL_SIZE = 10;
+    private static final int MAX_POOL_SIZE = 10; // 원래 강조하고 싶었던 부분은 이 부분
+    // MaximumPoolSize는 모니터링을 WAS 스레드 수를 함께 고려해야 하며, 모니터링을 통해 적절한 풀 사이즈를 결정해야한다.
 
-    private static final DataSource ds ;
+    private static final DataSource ds;
 
     static { // DataSource는 하나여야 하므로 static 초기화 블럭으로 초기화(?)
         HikariDataSource hikariDataSource = new HikariDataSource(); // CP로 Hikari 사용할 것이므로 HikariDataSource 사용
