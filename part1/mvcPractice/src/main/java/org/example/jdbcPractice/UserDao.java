@@ -4,25 +4,12 @@ import java.sql.*;
 
 public class UserDao {
 
-    private Connection getConnection() {
-        String url = "jdbc:h2:mem:localhost/~/mvcPractice;MODE=MySQL;DB_CLOSE_DELAY=-1";
-        String id = "sa";
-        String pw = "";
-
-        try {
-            Class.forName("org.h2.Driver");
-            return DriverManager.getConnection(url, id, pw);
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
     public void create(User user) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
 
         try {
-            con = getConnection();
+            con = ConnectionManager.getConnection();
             String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, user.getUserId());
@@ -50,7 +37,7 @@ public class UserDao {
         ResultSet rs = null;
 
         try {
-            con = getConnection();
+            con = ConnectionManager.getConnection();
             String sql = "SELECT userId, password, name, email FROM USERS WHERE userId = ?";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, userId);

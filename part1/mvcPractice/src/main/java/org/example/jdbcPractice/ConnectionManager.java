@@ -3,8 +3,14 @@ package org.example.jdbcPractice;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ConnectionManager {
+
+    public static Connection getConnection() throws SQLException {
+        return getDataSource().getConnection();
+    }
 
     public static DataSource getDataSource() {
         HikariDataSource hikariDataSource = new HikariDataSource(); // CP로 Hikari 사용할 것이므로 HikariDataSource 사용
