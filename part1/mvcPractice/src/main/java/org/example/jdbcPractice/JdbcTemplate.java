@@ -30,7 +30,7 @@ public class JdbcTemplate {
         }
     }
 
-    public User executeQuery(String sql, PreparedStatementParameterSetter pss, RowMapper rowMapper) throws SQLException {
+    public <T> T executeQuery(String sql, PreparedStatementParameterSetter pss, RowMapper<T> rowMapper) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -38,16 +38,16 @@ public class JdbcTemplate {
         try {
             con = ConnectionManager.getConnection();
             pstmt = con.prepareStatement(sql);
-            pss.setParameter(pstmt); // 메서드를 호출한 쪽에서 pss의 콜백 함수를 만들어서 보내줌(람다식으로)
+            pss.setParameter(pstmt); // 메서드를 호출한 쪽에서 pss의 콜백 함수(setParameter)를 만들어서 보내줌(람다식으로)
 
             rs = pstmt.executeQuery();
 
-            User user = null;
+            T result = null;
             if (rs.next()) {
-                user = rowMapper.map(rs);
+                result = rowMapper.map(rs);  // 메서드를 호출한 쪽에서 rowMapper의 콜백 함수(map)를 만들어서 보내줌(람다식으로)
             }
 
-            return user;
+            return result;
         } finally {
             try {
                 try {
