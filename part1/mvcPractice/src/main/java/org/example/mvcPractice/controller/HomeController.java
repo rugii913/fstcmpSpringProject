@@ -1,8 +1,8 @@
-package org.example.controller;
+package org.example.mvcPractice.controller;
 
-import org.example.annotation.Controller;
-import org.example.annotation.RequestMapping;
-import org.example.annotation.RequestMethod;
+import org.example.mvcPractice.annotation.Controller;
+import org.example.mvcPractice.annotation.RequestMapping;
+import org.example.mvcPractice.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
