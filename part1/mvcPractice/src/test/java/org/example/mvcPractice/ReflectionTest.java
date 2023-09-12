@@ -1,5 +1,6 @@
 package org.example.mvcPractice;
 
+import org.assertj.core.api.Assertions;
 import org.example.mvcPractice.annotation.Component;
 import org.example.mvcPractice.annotation.Controller;
 import org.example.mvcPractice.annotation.Service;
@@ -49,5 +50,31 @@ public class ReflectionTest {
         logger.debug("User all declared constructors: [{}]", Arrays.stream(clazz.getDeclaredConstructors()).collect(Collectors.toList()));
         // 모든 메서드 출력
         logger.debug("User all declared methods: [{}]", Arrays.stream(clazz.getDeclaredMethods()).collect(Collectors.toList()));
+    }
+    
+    @Test // 힙 영역에 로드되어 있는 클래스 타입의 객체를 가져오는 방법
+    void load() throws ClassNotFoundException {
+        // (1)
+        Class<User> clazz1 = User.class;
+
+        // (2)
+        User user = new User("userId", "name");
+        Class<? extends User> clazz2 = user.getClass();
+
+        // (3)
+        Class<?> clazz3 = Class.forName("org.example.mvcPractice.model.User");
+
+        logger.debug("clazz1: [{}]", clazz1);
+        logger.debug("clazz2: [{}]", clazz2);
+        logger.debug("clazz3: [{}]", clazz3);
+
+        // 이들 클래스 타입 객체들은 모두 같음(힙 영역에 로드되어 있는 객체를 가져올 뿐이므로)
+        Assertions.assertThat(clazz1).isSameAs(clazz2);
+        Assertions.assertThat(clazz2).isSameAs(clazz3);
+        Assertions.assertThat(clazz3).isSameAs(clazz1);
+
+        Assertions.assertThat(clazz1 == clazz2).isTrue();
+        Assertions.assertThat(clazz2 == clazz3).isTrue();
+        Assertions.assertThat(clazz3 == clazz1).isTrue();
     }
 }
