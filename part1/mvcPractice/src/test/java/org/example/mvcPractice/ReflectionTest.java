@@ -1,5 +1,6 @@
 package org.example.mvcPractice;
 
+import org.example.mvcPractice.annotation.Component;
 import org.example.mvcPractice.annotation.Controller;
 import org.example.mvcPractice.annotation.Service;
 import org.junit.jupiter.api.Test;
@@ -21,15 +22,15 @@ public class ReflectionTest {
 
     @Test
     void controllerScan() {
-        Set<Class<?>> beans = getTypesAnnotatedWith(List.of(Controller.class, Service.class));
+        Set<Class<?>> beans = getTypesAnnotatedWith(Component.class);
         logger.debug("beans: [{}]", beans);
     }
 
-    private Set<Class<?>> getTypesAnnotatedWith(List<Class<? extends Annotation>> annotationClazzes) {
+    private Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotationClazz) {
         Reflections reflections = new Reflections("org.example.mvcPractice");
 
         Set<Class<?>> beans = new HashSet<>();
-        annotationClazzes.forEach(annotationClazz -> beans.addAll(reflections.getTypesAnnotatedWith(annotationClazz)));
+        beans.addAll(reflections.getTypesAnnotatedWith(annotationClazz));
 
         return beans;
     }
