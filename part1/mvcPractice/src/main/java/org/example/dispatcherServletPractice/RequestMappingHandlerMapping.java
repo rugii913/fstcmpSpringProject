@@ -12,8 +12,9 @@ public class RequestMappingHandlerMapping { // String key는 url path, Controlle
     private Map<String, Controller> mappings = new HashMap<>();
 
     void init() {
-        mappings.put("/", new HomeController()); // 어떤 경로도 설정되지 않으면 HomeController로 매핑하는 매핑 정보
-        mappings.put("/user/list", new UserListController());
+        mappings.put(new HandlerKey(RequestMethod.GET, "/"), new HomeController()); // 어떤 경로도 설정되지 않으면 HomeController로 매핑하는 매핑 정보
+        mappings.put(new HandlerKey(RequestMethod.GET, "/users"), new UserListController());
+        mappings.put(new HandlerKey(RequestMethod.POST, "/users"), new UserListController());
     }
 
     public Controller findHandler(String uriPath) { // cf. Handler는 Controller라고 생각하면 된다.
