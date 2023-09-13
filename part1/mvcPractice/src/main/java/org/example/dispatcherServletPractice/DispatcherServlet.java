@@ -8,7 +8,6 @@ import org.example.dispatcherServletPractice.view.ViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 @WebServlet("/") // 어떤 경로를 입력하더라도 이 DispatcherServlet이 호출
@@ -25,7 +23,7 @@ import java.util.List;
 public class DispatcherServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherServlet.class);
-    private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    private HandlerMapping handlerMapping;
     private List<HandlerAdapter> handlerAdapters;
     private List<ViewResolver> viewResolvers;
 
@@ -33,8 +31,8 @@ public class DispatcherServlet extends HttpServlet {
     public void init() throws ServletException { // DispatcherServlet이 인스턴스화될 때 호출
         // cf. 톰캣이 뜰 때 Servlet 타입 클래스를 싱글톤으로 인스턴스화하면서 그 때 init() 메서드 호출함
         // ***** 톰캣 코드 더 찾아보자 *****
-        requestMappingHandlerMapping = new RequestMappingHandlerMapping();
-        requestMappingHandlerMapping.init(); // 포함하고 있는 RequestMappingHandlerMapping 객체를 초기화(맵 자료구조 초기화)
+        handlerMapping = new RequestMappingHandlerMapping();
+        handlerMapping.init(); // 포함하고 있는 RequestMappingHandlerMapping 객체를 초기화(맵 자료구조 초기화)
 
         viewResolvers = Collections.singletonList(new JspViewResolver());
         handlerAdapters = List.of(new SimpleControllerHandlerAdapter());
@@ -46,7 +44,7 @@ public class DispatcherServlet extends HttpServlet {
 
         String uri = request.getRequestURI();
         log.info("request uri= {}", uri);
-        Controller handler = requestMappingHandlerMapping
+        Object handler = handlerMapping
                 .findHandler(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI())); // 매핑 작업 위임 -> uri에 맞는 컨트롤러(핸들러) 돌려받음
         try {
             // 현재 redirect:~도 해결하고, forward도 해결해야하는 상황 (UserCreateController에서 return "redirect:/users"; 부분)
