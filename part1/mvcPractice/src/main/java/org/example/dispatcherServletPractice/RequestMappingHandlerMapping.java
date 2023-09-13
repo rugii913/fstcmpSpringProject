@@ -2,6 +2,7 @@ package org.example.dispatcherServletPractice;
 
 import org.example.dispatcherServletPractice.controller.Controller;
 import org.example.dispatcherServletPractice.controller.HomeController;
+import org.example.dispatcherServletPractice.controller.UserListController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ public class RequestMappingHandlerMapping { // String key는 url path, Controlle
 
     void init() {
         mappings.put("/", new HomeController()); // 어떤 경로도 설정되지 않으면 HomeController로 매핑하는 매핑 정보
+        mappings.put("/user/list", new UserListController());
     }
 
     public Controller findHandler(String uriPath) { // cf. Handler는 Controller라고 생각하면 된다.
