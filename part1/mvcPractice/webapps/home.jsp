@@ -10,6 +10,10 @@
 <head>
     <meta charset="UTF-8">
     <title>home</title>
+    <%--파비콘 요청 무시--%>
+    <%--(참고) https://ryusmtistory.com/9 https://blog.naver.com/dsz08082/222569239010--%>
+    <link rel="shortcut icon" href="data:,">
+    <%--<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">--%>
 </head>
 <body>
 페이지 Home

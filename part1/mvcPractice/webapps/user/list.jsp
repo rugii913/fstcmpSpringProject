@@ -6,6 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>list</title>
+    <%--파비콘 요청 무시--%>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
 
 <body>

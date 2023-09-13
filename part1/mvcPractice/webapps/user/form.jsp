@@ -6,11 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>form</title>
+    <%--파비콘 요청 무시--%>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 </head>
 
 <body>
-
-<form method="post" action="/users">
+<%--IDE에서 절대 경로 추천 안함, 동적 컨텍스트 활용하도록 수정--%>
+<form method="post" action="${pageContext.request.contextPath}/users">
     <div>
         <label for="userId">사용자 아이디</label>
         <input class="form-control" id="userId" name="userId" placeholder="User Id"/>
