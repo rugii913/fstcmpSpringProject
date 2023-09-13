@@ -1,3 +1,7 @@
+### 톰캣이 갖고 오는 파일들 제외 ###
+tomcat.8080
+
+###
 HELP.md
 .gradle
 build/
