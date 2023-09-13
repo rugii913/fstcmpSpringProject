@@ -26,6 +26,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherServlet.class);
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    private List<HandlerAdapter> handlerAdapters;
     private List<ViewResolver> viewResolvers;
 
     @Override
@@ -36,6 +37,7 @@ public class DispatcherServlet extends HttpServlet {
         requestMappingHandlerMapping.init(); // 포함하고 있는 RequestMappingHandlerMapping 객체를 초기화(맵 자료구조 초기화)
 
         viewResolvers = Collections.singletonList(new JspViewResolver());
+        handlerAdapters = List.of(new SimpleControllerHandlerAdapter());
     }
 
     @Override
@@ -49,11 +51,19 @@ public class DispatcherServlet extends HttpServlet {
         try {
             // 현재 redirect:~도 해결하고, forward도 해결해야하는 상황 (UserCreateController에서 return "redirect:/users"; 부분)
             // 현재 없는 것 - Handler Adapter, View Resolver -> 이 중 이 상황에서 필요한 것은 View Resolver
-            String viewName = handler.handleRequest(request, response); // 찾은 컨트롤러에 handleRequest 위임(뷰의 이름을 스트링으로 반환 받기)
+            // String viewName = handler.handleRequest(request, response); // 찾은 컨트롤러에 handleRequest 위임(뷰의 이름을 스트링으로 반환 받기)
+            // -> 아래에서 ModelAndView를 사용하므로 이 부분은 제거
+
+            HandlerAdapter foundHandlerAdapter = handlerAdapters.stream()
+                    .filter(handlerAdapter -> handlerAdapter.supports(handler))
+                    .findFirst()
+                    .orElseThrow(() -> new ServletException("No adapter for handler [" + handler + "]"));
+
+            ModelAndView modelAndView = foundHandlerAdapter.handle(request, response, handler);
 
             for (ViewResolver viewResolver : viewResolvers) {
-                View view = viewResolver.resolveView(viewName);
-                view.render(new HashMap<>(), request, response);
+                View view = viewResolver.resolveView(modelAndView.getViewName());
+                view.render(modelAndView.getModel(), request, response);
             }
         } catch (Exception e) {
             log.error("exception occurred: [{}]", e.getMessage(), e);
