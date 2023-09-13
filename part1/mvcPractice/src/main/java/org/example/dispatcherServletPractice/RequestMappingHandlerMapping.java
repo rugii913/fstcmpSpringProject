@@ -11,7 +11,8 @@ public class RequestMappingHandlerMapping implements HandlerMapping { // String 
 
     @Override
     public void init() {
-        mappings.put(new HandlerKey(RequestMethod.GET, "/"), new HomeController()); // 어떤 경로도 설정되지 않으면 HomeController로 매핑하는 매핑 정보
+        // mappings.put(new HandlerKey(RequestMethod.GET, "/"), new HomeController()); // 어떤 경로도 설정되지 않으면 HomeController로 매핑하는 매핑 정보
+        // HomeController는 @Controller 붙여서 AnnotationHandlerMapping에서 담당하고 있음
         mappings.put(new HandlerKey(RequestMethod.GET, "/users"), new UserListController());
         mappings.put(new HandlerKey(RequestMethod.POST, "/users"), new UserCreateController());
         mappings.put(new HandlerKey(RequestMethod.GET, "/user/form"), new ForwardController("/user/form"));
