@@ -23,7 +23,7 @@ import java.util.List;
 public class DispatcherServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherServlet.class);
-    private HandlerMapping handlerMapping;
+    private List<HandlerMapping> handlerMappings;
     private List<HandlerAdapter> handlerAdapters;
     private List<ViewResolver> viewResolvers;
 
@@ -31,9 +31,13 @@ public class DispatcherServlet extends HttpServlet {
     public void init() throws ServletException { // DispatcherServlet이 인스턴스화될 때 호출
         // cf. 톰캣이 뜰 때 Servlet 타입 클래스를 싱글톤으로 인스턴스화하면서 그 때 init() 메서드 호출함
         // ***** 톰캣 코드 더 찾아보자 *****
-        handlerMapping = new RequestMappingHandlerMapping();
-        handlerMapping.init(); // 포함하고 있는 RequestMappingHandlerMapping 객체를 초기화(맵 자료구조 초기화)
+        RequestMappingHandlerMapping rmhm = new RequestMappingHandlerMapping();
+        rmhm.init(); // 포함하고 있는 RequestMappingHandlerMapping 객체를 초기화(맵 자료구조 초기화)
 
+        AnnotationHandlerMapping ahm = new AnnotationHandlerMapping("org.example.dispatcherServletPractice");
+        ahm.init();
+
+        handlerMappings = List.of(rmhm, ahm);
         viewResolvers = Collections.singletonList(new JspViewResolver());
         handlerAdapters = List.of(new SimpleControllerHandlerAdapter());
     }
@@ -42,16 +46,22 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("[DispatcherServlet] service started");
 
-        String uri = request.getRequestURI();
-        log.info("request uri= {}", uri);
-        Object handler = handlerMapping
-                .findHandler(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI())); // 매핑 작업 위임 -> uri에 맞는 컨트롤러(핸들러) 돌려받음
+        String requestURI = request.getRequestURI();
+        RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod());
+
+        log.info("request uri= {}", requestURI);
+
         try {
+            Object handler = handlerMappings.stream() // uri에 맞는 컨트롤러(핸들러) 돌려받음
+                    .filter(handlerMapping -> handlerMapping.findHandler(new HandlerKey(requestMethod, requestURI)) != null)
+                    .map(handlerMapping -> handlerMapping.findHandler(new HandlerKey(requestMethod, requestURI)))
+                    .findFirst()
+                    .orElseThrow(() -> new ServletException("No handler for [" + requestMethod + ", " + requestURI + "]"));
+
             // 현재 redirect:~도 해결하고, forward도 해결해야하는 상황 (UserCreateController에서 return "redirect:/users"; 부분)
             // 현재 없는 것 - Handler Adapter, View Resolver -> 이 중 이 상황에서 필요한 것은 View Resolver
             // String viewName = handler.handleRequest(request, response); // 찾은 컨트롤러에 handleRequest 위임(뷰의 이름을 스트링으로 반환 받기)
             // -> 아래에서 ModelAndView를 사용하므로 이 부분은 제거
-
             HandlerAdapter foundHandlerAdapter = handlerAdapters.stream()
                     .filter(handlerAdapter -> handlerAdapter.supports(handler))
                     .findFirst()
