@@ -1,6 +1,7 @@
 package org.example.dispatcherServletPractice;
 
 import org.example.dispatcherServletPractice.controller.Controller;
+import org.example.dispatcherServletPractice.controller.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,8 @@ public class DispatcherServlet extends HttpServlet {
 
         String uri = request.getRequestURI();
         log.info("request uri= {}", uri);
-        Controller handler = requestMappingHandlerMapping.findHandler(uri); // 매핑 작업 위임 -> uri에 맞는 컨트롤러(핸들러) 돌려받음
+        Controller handler = requestMappingHandlerMapping
+                .findHandler(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI())); // 매핑 작업 위임 -> uri에 맞는 컨트롤러(핸들러) 돌려받음
         try {
             String viewName = handler.handleRequest(request, response); // 찾은 컨트롤러에 handleRequest 위임(뷰의 이름을 스트링으로 반환 받기)
 
