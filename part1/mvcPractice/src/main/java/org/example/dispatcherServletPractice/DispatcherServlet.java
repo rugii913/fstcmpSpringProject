@@ -2,6 +2,9 @@ package org.example.dispatcherServletPractice;
 
 import org.example.dispatcherServletPractice.controller.Controller;
 import org.example.dispatcherServletPractice.controller.RequestMethod;
+import org.example.dispatcherServletPractice.view.JspViewResolver;
+import org.example.dispatcherServletPractice.view.View;
+import org.example.dispatcherServletPractice.view.ViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 @WebServlet("/") // 어떤 경로를 입력하더라도 이 DispatcherServlet이 호출
 // 왜 그런지는 spec을 참고해야될 것 같다... // 버전은 다르겠지만 최신 버전인 https://jakarta.ee/specifications/servlet/5.0/jakarta-servlet-spec-5.0을 참고해도 크게 상관 없을 듯
@@ -19,8 +25,8 @@ import java.io.IOException;
 public class DispatcherServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(DispatcherServlet.class);
-
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
+    private List<ViewResolver> viewResolvers;
 
     @Override
     public void init() throws ServletException { // DispatcherServlet이 인스턴스화될 때 호출
@@ -28,6 +34,8 @@ public class DispatcherServlet extends HttpServlet {
         // ***** 톰캣 코드 더 찾아보자 *****
         requestMappingHandlerMapping = new RequestMappingHandlerMapping();
         requestMappingHandlerMapping.init(); // 포함하고 있는 RequestMappingHandlerMapping 객체를 초기화(맵 자료구조 초기화)
+
+        viewResolvers = Collections.singletonList(new JspViewResolver());
     }
 
     @Override
@@ -39,10 +47,14 @@ public class DispatcherServlet extends HttpServlet {
         Controller handler = requestMappingHandlerMapping
                 .findHandler(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI())); // 매핑 작업 위임 -> uri에 맞는 컨트롤러(핸들러) 돌려받음
         try {
+            // 현재 redirect:~도 해결하고, forward도 해결해야하는 상황 (UserCreateController에서 return "redirect:/users"; 부분)
+            // 현재 없는 것 - Handler Adapter, View Resolver -> 이 중 이 상황에서 필요한 것은 View Resolver
             String viewName = handler.handleRequest(request, response); // 찾은 컨트롤러에 handleRequest 위임(뷰의 이름을 스트링으로 반환 받기)
 
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(viewName);
-            requestDispatcher.forward(request, response);
+            for (ViewResolver viewResolver : viewResolvers) {
+                View view = viewResolver.resolveView(viewName);
+                view.render(new HashMap<>(), request, response);
+            }
         } catch (Exception e) {
             log.error("exception occurred: [{}]", e.getMessage(), e);
             throw new RuntimeException(e);
