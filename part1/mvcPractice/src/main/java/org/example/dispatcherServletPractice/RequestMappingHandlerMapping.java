@@ -13,6 +13,7 @@ public class RequestMappingHandlerMapping { // String key는 url path, Controlle
         mappings.put(new HandlerKey(RequestMethod.GET, "/"), new HomeController()); // 어떤 경로도 설정되지 않으면 HomeController로 매핑하는 매핑 정보
         mappings.put(new HandlerKey(RequestMethod.GET, "/users"), new UserListController());
         mappings.put(new HandlerKey(RequestMethod.POST, "/users"), new UserCreateController());
+        mappings.put(new HandlerKey(RequestMethod.GET, "/user/form"), new ForwardController("/user/form.jsp"));
     }
 
     public Controller findHandler(HandlerKey handlerKey) { // cf. Handler는 Controller라고 생각하면 된다.
