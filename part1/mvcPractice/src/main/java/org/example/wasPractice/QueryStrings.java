@@ -3,6 +3,7 @@ package org.example.wasPractice;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class QueryStrings {
 
@@ -23,5 +24,18 @@ public class QueryStrings {
     public String getValue(String key) {
         return this.queryStrings.stream().filter(queryString -> queryString.exists(key))
                 .map(QueryString::getValue).findFirst().orElse(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QueryStrings that = (QueryStrings) o;
+        return Objects.equals(queryStrings, that.queryStrings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(queryStrings);
     }
 }

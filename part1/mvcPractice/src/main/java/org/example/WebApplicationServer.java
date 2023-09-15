@@ -1,9 +1,7 @@
 package org.example;
 
-import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import org.example.servlet.CalculatorServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
