@@ -1,5 +1,7 @@
 ### 톰캣이 갖고 오는 파일들 제외 ###
 tomcat.8080
+### Querydsl Q파일 제외 ###
+**/generated
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,intellij+all,visualstudiocode,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,intellij+all,visualstudiocode,windows,macos
