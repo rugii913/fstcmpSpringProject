@@ -17,6 +17,10 @@ spring:
     username: crossjoinAdmin
     password: thisisTESTpw!#%&
     driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 8 버전 이상은 cj 패키지 붙은 것 사용
+    # H2 DB In-memory 사용하는 경우의 설정
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    driver-class-name: org.h2.Driver
   jpa:
     defer-datasource-initialization: true # 테스트용 데이터베이스 데이터 생성 가능 # resources 안에 sql 파일 만들어서 초기 데이터 세팅
     hibernate:
@@ -25,9 +29,11 @@ spring:
     properties: # 추가적인 프로퍼티로 JPA에 사용할 구현체에 종속된 프로퍼티 설정
       hibernate.format_sql: true # SQL문을 예쁘게 포매팅
       hibernate.default_batch_fetch_size: 100 # n+1 쿼리 문제 관련, 최대 100개 단위로 묶어서 벌크로 select할 수 있도록
-  h2:
-    console:
-      enabled: false # 테스트용 H2 DB 웹 콘솔은 안 쓰기
+#  h2: # 테스트용 H2 DB 웹 콘솔은 안 쓰기
+#    console:
+#      enabled: false
+      # 사용하는 경우 datasource url은 jdbc:h2:mem:testdb로 설정, username, driver class 설정
+      # http://localhost:[포트번호]/h2-console/로 접속, JDBC URL에 위 jdbc:h2:mem:testdb 입력
   sql:
     init:
       mode: always # resources의 data.sql을 항상 작동하게 # 배포 전 개발 기간에는 always로 해서 계속 테스트 데이터 들어가도록 만듦
