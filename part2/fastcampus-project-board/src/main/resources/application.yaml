@@ -37,7 +37,11 @@ spring:
   sql:
     init:
       mode: always # resources의 data.sql을 항상 작동하게 # 배포 전 개발 기간에는 always로 해서 계속 테스트 데이터 들어가도록 만듦
-      
+  data:
+    rest:
+      base-path: /api # localhost:8080/api로 접속 시 HAL Explorer 볼 수 있음 - Data REST로 생성된 restful API 확인 가능 
+      detection-strategy: annotated # spring data REST doc 참고
+
 #---
 # yaml 파일은 ---을 기준으로 document가 나뉨, document별로 Spring의 다른 Profile 설정하여 사용 가능
 # 테스트 DB 사용 프로파일
