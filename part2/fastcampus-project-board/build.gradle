@@ -37,8 +37,39 @@ dependencies {
     // Spring Data REST 관련
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.data:spring-data-rest-hal-explorer' // 시각화 및 테스트
+
+    // QueryDSL 설정
+    implementation 'com.querydsl:querydsl-jpa' // 필수
+    implementation 'com.querydsl:querydsl-core' // 필수
+    implementation 'com.querydsl:querydsl-collections' // 없어도 기본 기능 사용에는 문제 없음
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa" // 중요
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api' // java.lang.NoClassDefFoundError (javax.annotation.Generated) 대응 코드
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api' // java.lang.NoClassDefFoundError (javax.annotation.Entity) 대응 코드
+    // cf. 버전은 플러그인 'io.spring.dependency-management'에 의해 관리됨
+    // - 확인하고 싶다면 { } 바깥쪽에서 print(dependencyManagement) 해보면 버전을 리스트로 확인할 수 있음
+    // - 그런데 apt의 경우 마지막에 :jpa가 붙기 때문에 중간을 생략할 수가 없음
+    // - 그래서 ${dependencyManagement.importedProperties['querydsl.version']} 부분으로 dependencyManagement의 관리되는 버전 값을 수동으로 가져온 것
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// QueryDSL 설정 부분
+def generated = 'src/main/generated' // 문자열 타입 generated 변수: 파일 경로 의미
+// IDE에서 빌드할 때 발생하는 문제를 회피하기 위해 경로를 밖으로 일부러 꺼내두는 것
+
+// QueryDSL QClass 파일 생성 위치 지정
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set에 QueryDSL QClass 위치 추가 // 참고: Gradle sourceSets 검색해볼 것
+sourceSets {
+    main.java.srcDirs += [generated]
+}
+
+// gradle clean 시 QClass 디렉토리 삭제 // 별도로 꺼내놓은 경로까지 삭제하기 위한 부분
+clean {
+    delete file(generated)
 }
