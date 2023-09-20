@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--<html lang="ko">-->
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <!--현재는 xmlns:th="http://www.thymeleaf.org" 붙이지 않아도 동작하는 듯하지만 명확하게 보여주기 위해...-->
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 
 <body>
 
-    <header th:replace="~{header :: header}"></header>
+    <header id="header"></header>
     <!--<header th:replace="header :: header"></header>  ~{} ~중괄호도 생략 가능-->
 
     <main>
@@ -75,7 +75,7 @@
         </nav>
     </main>
 
-    <footer th:replace="footer :: footer"></footer>
+    <footer id="footer"></footer>
 
 </body>
 </html>
