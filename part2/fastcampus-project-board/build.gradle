@@ -54,6 +54,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // Configuration Processor // 사용자가 직접 만든 커스텀 property도 문서 세팅 가능, IDE의 지원 가능
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Spring Security + Thymeleaf
+    // *** org.thymeleaf.extras:thymeleaf-extras-springsecurity5는 Spring Security + Thymeleaf를 함께 가져와야만
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 tasks.named('test') {
