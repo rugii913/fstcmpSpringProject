@@ -34,7 +34,6 @@ class ArticleControllerTest {
                 .andExpect(model().attributeExists("articles")); // 데이터 안까지 들여다 보는 건 아니고 있는지 없는지, 키값까지만
     }
 
-    @Disabled("구현 중")
     @DisplayName("[view][GET] 게시글 상세 페이지 - 정상 호출")
     @Test
     public void givenNothing_whenRequestingArticleView_thenArticleView() throws Exception {
