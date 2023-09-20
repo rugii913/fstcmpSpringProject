@@ -41,6 +41,10 @@ spring:
     rest:
       base-path: /api # localhost:8080/api로 접속 시 HAL Explorer 볼 수 있음 - Data REST로 생성된 restful API 확인 가능 
       detection-strategy: annotated # spring data REST doc 참고
+  thymeleaf3:
+    decoupled-logic: true # ThymeleafConfig에서 configuration property로 추가시킨 것
+    # cf. Gradle 빌드 클린 후 다시 빌드할 때 경고문 뜰 수도 있음 => 그럴 땐 Configuration Processor 추가
+    # build.gradle에 annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 #---
 # yaml 파일은 ---을 기준으로 document가 나뉨, document별로 Spring의 다른 Profile 설정하여 사용 가능

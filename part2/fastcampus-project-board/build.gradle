@@ -49,6 +49,16 @@ dependencies {
     // - 확인하고 싶다면 { } 바깥쪽에서 print(dependencyManagement) 해보면 버전을 리스트로 확인할 수 있음
     // - 그런데 apt의 경우 마지막에 :jpa가 붙기 때문에 중간을 생략할 수가 없음
     // - 그래서 ${dependencyManagement.importedProperties['querydsl.version']} 부분으로 dependencyManagement의 관리되는 버전 값을 수동으로 가져온 것
+
+    // SSR Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Configuration Processor // 사용자가 직접 만든 커스텀 property도 문서 세팅 가능, IDE의 지원 가능
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Spring Security + Thymeleaf
+    // *** org.thymeleaf.extras:thymeleaf-extras-springsecurity5는 Spring Security + Thymeleaf를 함께 가져와야만
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 tasks.named('test') {

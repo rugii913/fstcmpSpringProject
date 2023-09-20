@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<thlogic> <!--cf. Spring boot 2.6까지만 해도 decoupled logic에 대한 inspection이 잘 동작하지 않았으나, 2.7에서는 잘 동작하는 편-->
+    <attr sel="#header" th:replace="header::header"/>
+    <attr sel="#footer" th:replace="footer::footer"/>
+</thlogic>
