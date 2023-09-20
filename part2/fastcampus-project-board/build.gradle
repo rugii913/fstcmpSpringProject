@@ -52,6 +52,8 @@ dependencies {
 
     // SSR Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Configuration Processor // 사용자가 직접 만든 커스텀 property도 문서 세팅 가능, IDE의 지원 가능
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
 tasks.named('test') {
