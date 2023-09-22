@@ -2,6 +2,8 @@
 tomcat.8080
 ### Querydsl Q파일 제외 ###
 **/generated
+### JPA Buddy 설정 파일 제외 ###
+**/.jpb/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,intellij+all,visualstudiocode,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,intellij+all,visualstudiocode,windows,macos
