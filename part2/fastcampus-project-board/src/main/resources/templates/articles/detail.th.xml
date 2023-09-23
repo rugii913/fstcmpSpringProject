@@ -2,4 +2,24 @@
 <thlogic> <!--cf. Spring boot 2.6까지만 해도 decoupled logic에 대한 inspection이 잘 동작하지 않았으나, 2.7에서는 잘 동작하는 편-->
     <attr sel="#header" th:replace="header::header"/>
     <attr sel="#footer" th:replace="footer::footer"/>
+
+    <!--게시글 본문 관련-->
+    <attr sel="#article-main" th:object="${article}"> <!--여기서 th:object="${article}"을 잡아와서 아래에서는 *{~}을 사용할 수 있음-->
+        <attr sel="#article-header/h1" th:text="*{title}" /> <!--위에서 ${article}을 잡아왔기 때문에 ${article.title} 대신 *{title}을 사용할 수 있음-->
+        <!--IDE에서는 *{~} 문법을 제대로 체크하지 못해서 빨간줄 뜨지만 무시-->
+        <attr sel="#nickname" th:text="*{nickname}" />
+        <attr sel="#email" th:text="*{email}" />
+        <attr sel="#created-at" th:datetime="*{createdAt}" th:text="*{#temporals.format(createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
+        <attr sel="#hashtag" th:text="*{hashtag}" />
+        <attr sel="#article-content/pre" th:text="*{content}" />
+    </attr>
+
+    <!--게시글 댓글 부분 관련-->
+    <attr sel="#article-comments" th:remove="all-but-first">
+        <attr sel="li[0]" th:each="articleComment : ${articleComments}">
+            <attr sel="div/strong" th:text="${articleComment.nickname}" />
+            <attr sel="div/small/time" th:datetime="${articleComment.createdAt}" th:text="${#temporals.format(articleComment.createdAt, 'yyyy-MM-dd HH:mm:ss')}" />
+            <attr sel="div/p" th:text="${articleComment.content}" />
+        </attr>
+    </attr>
 </thlogic>
