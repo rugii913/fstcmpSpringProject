@@ -34,4 +34,13 @@ public record ArticleDto(
                 entity.getModifiedAt(),
                 entity.getModifiedBy());
     }
+
+    public Article toEntity() {
+        return Article.of(
+                userAccountDto.toEntity(),
+                title,
+                content,
+                hashtag
+        );
+    }
 }

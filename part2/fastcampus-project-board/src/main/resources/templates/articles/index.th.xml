@@ -2,4 +2,16 @@
 <thlogic> <!--cf. Spring boot 2.6까지만 해도 decoupled logic에 대한 inspection이 잘 동작하지 않았으나, 2.7에서는 잘 동작하는 편-->
     <attr sel="#header" th:replace="header::header"/>
     <attr sel="#footer" th:replace="footer::footer"/>
+
+    <attr sel="#article-table">
+        <attr sel="tbody" th:remove="all-but-first"> <!--목업 데이터 중 all-but-first 첫번째 것만 남기고 모두 지운다-->
+            <attr sel="tr[0]" th:each="article : ${articles}"> <!--0번째 tr을 잡아서 순회를 돌아서 치환-->
+                <attr sel="td.title/a" th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}" /> <!--title 클래스 붙은 것 중 a 태그로 들어감-->
+                <attr sel="td.hashtag" th:text="${article.hashtag}" />
+                <attr sel="td.user-id" th:text="${article.nickname}" />
+                <attr sel="td.created-at/time" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}" /> <!--created-at 클래스 붙은 것 중 time 태그로 들어감-->
+                <!--Thymeleaf #temporals utility 시간 정보 등 포매팅-->
+            </attr>
+        </attr>
+    </attr>
 </thlogic>
