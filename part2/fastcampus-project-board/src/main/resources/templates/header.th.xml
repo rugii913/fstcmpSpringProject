@@ -2,4 +2,9 @@
 <thlogic>
     <attr sel="#home" th:href="@{/}" />
     <attr sel="#hashtag" th:href="@{/articles/search-hashtag}" />
+    <attr sel="#username" sec:authorize="isAuthenticated()" sec:authentication="name"></attr>
+    <attr sel="#login" sec:authorize="!isAuthenticated()" th:href="@{/login}"></attr>
+    <attr sel="#logout" sec:authorize="isAuthenticated()" th:href="@{/logout}"></attr>
+    <!--sec 태그 - 타임리프 doc에서 security 검색 - Articles > With Spring > Thymeleaf + Spring Security integration basics 문서 + 깃허브 문서-->
+    <!--인증된 상태를 확인해서 이에 따라 이름을 보여주거/안 보여주기, 로그인 버튼을 보여주기/안 보여주기 등-->
 </thlogic>
