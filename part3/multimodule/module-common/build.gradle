@@ -35,3 +35,14 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.bootJar {enabled = false} // xxx.jar -> java -jar xxx.jar로 실행 가능
+tasks.jar {enabled = true} // xxx-plain.jar -> java -jar로 실행 불가능
+
+// (빌드 명령어)
+// ./gradlew clean :module-api:buildNeeded --stacktrace --info --refresh-dependencies -x test
+// cf. 로깅 레벨 debug -> info -> warn -> error
+// (실행 명령어) api 모듈 jar 파일 있는 경로에서, java -jar ~~.jar
+// ~\multimodule\module-api\build\libs> java -jar .\module-api-0.0.1-SNAPSHOT.jar
+// (빌드 파일 제거 명령어)
+// ./gradlew clean
