@@ -44,5 +44,10 @@ tasks.jar {enabled = true} // xxx-plain.jar -> java -jar로 실행 불가능
 // cf. 로깅 레벨 debug -> info -> warn -> error
 // (실행 명령어) api 모듈 jar 파일 있는 경로에서, java -jar ~~.jar
 // ~\multimodule\module-api\build\libs> java -jar .\module-api-0.0.1-SNAPSHOT.jar
+// (특정 프로파일로 실행)
+// (x) java -jar -Dspring.profiles.active=local module-api-0.0.1-SNAPSHOT.jar
+// -----> 에러 발생 - Error: Unable to access jarfile .profiles.active=local
+// (o) java -jar "-Dspring.profiles.active=local" .\module-api-0.0.1-SNAPSHOT.jar
+// -> Windows PowerShell에서 실행 옵션을 파일 이름으로 잘못 인식하는 에러 때문 https://shirohoo.github.io/debugging/2021-05-02-debugging-9/ 간단하게 참고
 // (빌드 파일 제거 명령어)
 // ./gradlew clean
