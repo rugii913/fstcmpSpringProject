@@ -21,11 +21,42 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    // - ext 블럭 선언 후 set(key, value) 선언 해주면, 이 값을 다른 곳에서 동적으로 불러다 쓸 수 있다.
+    // - 버전 충돌 시 https://spring.io/projects/spring-cloud에서 Spring Cloud와 Spring Boot 맞는 버전 찾을 것
+    /**
+     * Spring Boot and springCloudVersion must be caompatible.
+     * 2.6.x, 2.7.x (Starting with 2021.0.3) = 2021.0.x
+     * ref : https://spring.io/projects/spring-cloud
+     */
+    // 강의에서는 '2021.0.3'으로 진행했음
+    // Feign
+    set('springCloudVersion', '2021.0.8')
+}
+
+dependencyManagement {
+    // dependencies의 implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'을 사용하기 위해
+    // 추가적으로 dependencyManagement를 선언해줘야함
+    // Spring Cloud 2021.0.8 docs - https://docs.spring.io/spring-cloud/docs/2021.0.8/reference/htmlsingle/
+    // (Spring Cloud 해당 버전 Reference Doc. > Documentation Overview > Single-page HTML
+    // - 확실하게 이 dependencyManagement 블럭과 관련된 내용을 못 찾겠음. 나중에 다시 볼 것
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}" // ${~}는 동적으로 어떤 값들을 바인딩 해줄 때에 사용, 여기서는 위 ext 블럭의 값을 불러오고 있다.
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Feign - Spring Cloud OpenFeign 3.1.8 Reference Doc. https://docs.spring.io/spring-cloud-openfeign/docs/3.1.8/reference/html/
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    // Feign 관련 참고 추가
+    // https://velog.io/@shdrnrhd113/Feign-Client-로-HTTP-통신-하기
+    // https://velog.io/@gowjr207/페인-클라이언트를-설명해보다
+    // https://velog.io/@gowjr207/스프링-클라우드를-설명해보다
 }
 
 tasks.named('test') {
