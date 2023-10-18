@@ -15,7 +15,6 @@ public class DemoController {
     public String getController() {
         return demoService.get();
     }
-
     /*
     * 현재 요청-응답 흐름 정리
     * demoController로 요청이 들어옴 -> controller가 demoService 호출
@@ -24,6 +23,7 @@ public class DemoController {
     *    - 이 때 @RequestHeader의 key로 "CustomHeaderName", value로 service에서 넘어온 customHeader 값, 
     *      @RequestParam의 key로 "name", value로 service에서 넘어온 name 값, ... age도 마찬가지, ... 
     *      을 보냄
+    * -> 요청이 나가기 전 demoFeignInterceptor에서 요청을 잡아서 일정 로직을 적용한 뒤에 요청을 내보냄 
     * ///// ** 같은 8080 port의 TargetController에서 처리하는 것으로 구현되어 있음 - 위 FeignClient의 요청을 받아서 처리 후, BaseResponseInfo 타입으로 반환
     * ///// **** 이 때, demoFeignClient의 헤더 중 CustomHeaderName이라는 key 값을 가진 헤더의 value를 가져와서 응답의 body로 넣어준다.
     * ///// **** 즉, 지금 header와 param으로 정보를 받고서는, body로 정보를 내려주고 있는 상황임
@@ -31,4 +31,9 @@ public class DemoController {
     *                                     response 객체에 저장
     *                                     - response의 body에 있는 내용들을 분해해서 콘솔창에 출력
     * */
+
+    @GetMapping("/post")
+    public String postController() {
+        return demoService.post();
+    }
 }
