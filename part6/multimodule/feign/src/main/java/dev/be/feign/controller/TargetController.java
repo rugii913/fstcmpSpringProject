@@ -2,6 +2,8 @@ package dev.be.feign.controller;
 
 import dev.be.feign.common.dto.BaseRequestInfo;
 import dev.be.feign.common.dto.BaseResponseInfo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,5 +29,10 @@ public class TargetController { // 같은 컴퓨터 8080 포트 내에서 Feign�
                 .name(body.getName().concat(" =>=>=> feign client 요청 body 중 name 값이다."))
                 .age(body.getAge() * 100)
                 .build();
+    }
+
+    @GetMapping("/error")
+    public ResponseEntity<BaseResponseInfo> demoErrorDecoder() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

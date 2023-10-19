@@ -21,7 +21,10 @@ public interface DemoFeignClient { // Feign: 선언적으로 사용할 수 있�
                                              @RequestParam("name") String name,
                                              @RequestParam("age") Long age);
 
-    @PostMapping("/post") // -> 위 url 값과 합쳐져서 http://localhost:8080/target_server/get으로 요청을 보낸다.
+    @PostMapping("/post")
     ResponseEntity<BaseResponseInfo> callPost(@RequestHeader("CustomHeaderName") String customHeader,
                                               @RequestBody BaseRequestInfo baseRequestInfo);
+
+    @GetMapping("/error")
+    ResponseEntity<BaseResponseInfo> callErrorDecoder();
 }

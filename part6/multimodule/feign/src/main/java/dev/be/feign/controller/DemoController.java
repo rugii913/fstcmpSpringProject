@@ -36,4 +36,12 @@ public class DemoController {
     public String postController() {
         return demoService.post();
     }
+
+    @GetMapping("/errorD")
+    // 강의 내용 대로 url를 "/error"로 지정할 경우,
+    // This application has no explicit mapping for /error, so you are seeing this as a fallback. ... 만 보임
+    // - 아마 Spring 기본 static 페이지 설정 때문인 듯한데, 내용 찾아서 변경하기는 귀찮아서, 일단 mapping url을 바꿈
+    public String errorDecoderController() {
+        return demoService.errorDecoder();
+    }
 }
