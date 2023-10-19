@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- <configuration> </configuration> 빈 configuration으로 두면 스프링 서버 뜰 때 나오는 기본 로그들도 안 나온다. 기존의 logback 설정이 빈 설정으로 덮어씌워졌기 때문 -->
+    <!-- 두 resource를 include -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/> <!-- 스프링 기본 로그 설정 include -->
+    <!-- 운영 환경에서는 logback - console appender가 의미가 없다. profile을 나눠 각 환경별로 다른 logback property 설정을 갖도록 해야한다. -->
+    <include resource="logback-spring-${spring.profiles.active}.xml"/>
+    <!-- 이 파일은 profile별로 나눠진 logback 설정을 총괄하는 일종의 부모 logback 설정 xml 같은 것이라고 생각하면 된다. -->
+
+    <!--
+    logback-spring.xml은 스프링 부트가 뜰 때 자동으로 참조하게 되는 파일
+     - 기본적으로 참고할 "org/springframework/boot/logging/logback/defaults.xml"을 include 하고
+     - 각 profile별로 다른 logging을 하고자 한다면 "logback-spring-${spring.profiles.active}.xml"를 include해서 각 파일에 logging 설정을 작성하면 된다. - appender 설정, root 설정 등
+
+    (시간날 때 더 참고해볼 자료)
+    https://jeong-pro.tistory.com/154 (강력한 자바 오픈소스 로깅 프레임 워크, logback 사용법 .....
+     - http://forgiveall.tistory.com/493
+     - http://yongho1037.tistory.com/722
+    https://logback.qos.ch/manual/index.html (logback 매뉴얼)
+    https://www.baeldung.com/spring-boot-logging (Baeldung - spring boot loggin)
+     - https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.logging.custom-log-configuration
+       (Spring Boot docs. > Logging > Custom Log Configuration)
+    -->
+
+</configuration>
