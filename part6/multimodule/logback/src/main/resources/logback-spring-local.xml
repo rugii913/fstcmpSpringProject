@@ -1,0 +1,61 @@
+<included>
+    <!-- 우리에게 친숙한 스프링 프레임워크를 콘솔에 띄우기 -->
+    <!-- cf. shift 두 번 눌러서 찾기로 들어간 후, 비 프로젝트 항목 포함 체크하고 아래 경로를 찾으면 해당 파일 확인 가능 -->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <!--
+    위 "org/springframework/boot/logging/logback/console-appender.xml" 경로의 파일 내용이 아래와 같이 포함된다고 생각하면 된다.
+    <included>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+                <charset>${CONSOLE_LOG_CHARSET}</charset>
+            </encoder>
+        </appender>
+    </included>
+    -->
+    <!-- ${CONSOLE_LOG_PATTERN} ${CONSOLE_LOG_CHARSET}는 logback-spring.xml에서 include한 다른 파일인 "org/springframework/boot/logging/logback/defaults.xml"에서 참조하는 것임-->
+    <!-- 위까지 include해도 아직 친숙한 로그가 뜨지 않는다. 아래까지 입력해야함 -->
+
+    <!-- root 환경에서 기본적인 로그 레벨 설정, ref="CONSOLE"이 위의 appender name="CONSOLE"과 매핑됨 -->
+    <!--
+    아래 추가한 CONSOLE2 appender 사용해보기 위해 주석 처리
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    -->
+    <!-- 위까지 작성하면, 친숙한 로그와 비슷한 로그가 console에 뜨는데 뭔가 좀 더 많다. - 원래 설정은 INFO이기 때문임, 위 root level="INFO"로 바꾸면 친숙한 로그 확인 가능 -->
+    <!-- cf. 로그 레벨 순서 DEBUG < ... < INFO < WARN < ERROR  -->
+
+    <!-- custom한 appender 만들어보기 -->
+    <appender name="CONSOLE2" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 간단한 문턱 필터 - 외부 라이브러리 중 ch.qos.logback.classic.filter.ThresholdFilter 참고 http://logback.qos.ch/manual/filters.html#thresholdFilter -->
+            <level>INFO</level>
+        </filter>
+        <layout>
+            <pattern>
+                [CONSOLE2] [%-5level] %d{yyyy-MM-dd HH:mm:ss} [%thread] [%logger{40}:%line] - %msg%n
+                <!-- -5 적어도 5글자는 표시 / 시간 표시 / 스레드 이름 / **logger{0} 로거의 이름과 truncated 문자 수 관련 / line 소스코드의 몇번째 줄인지 / 메시지 / 줄바꿈-->
+                <!-- ***logger{0}에서 0 대신 1, 40 등을 넣어보면, 패키지 이름 표시 등 달라지는 부분을 확인할 수 있다.  -->
+                <!-- pattern layout 관련 자세한 내용은 아래 링크들 참고
+                     https://www.baeldung.com/logback#layouts
+                     - https://logback.qos.ch/manual/layouts.html#ClassicPatternLayout -->
+            </pattern>
+        </layout>
+        <!--
+        "org/springframework/boot/logging/logback/console-appender.xml"에서 복사한 것 중 필요 없는 부분
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+        -->
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="CONSOLE2"/>-->
+        <!-- root level="DEBUG"로 했지만, appender 자체가 INFO 레벨 filter가 있기 때문에 INFO 이상만 출력된다. -->
+        <!-- 즉, root level 설정과는 별개로 appender마다 고유한 레벨로 filter할 수 있다. -->
+    </root>
+
+</included>
