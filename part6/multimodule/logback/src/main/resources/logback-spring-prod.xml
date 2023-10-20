@@ -58,9 +58,48 @@
         </encoder>
     </appender>
 
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/warn.log</file>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch> <!-- 일치하면 남기고 -->
+            <onMismatch>DENY</onMismatch> <!-- 확실하게 일치하지 않으면 남기지 않는다 -->
+        </filter>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archive/warn.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [WARN] ${LOG_PATTERN}
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+    
+    <!--
+    cf. Level은 클래스이고, <level> 안의 값은 단순 문자열인데, 어떻게 상응하는 Level 인스턴스로 바꿔주는가?
+        - XML 파일을 처리(process, unmarshall?, deserialize?라고 표현)할 때,
+          이를 처리해 주는 JoranConfigurator에서 doConfigure할 때 interpreter에서 사용할 rule을 추가(addInstanceRules(RuleStore rs))
+          이 rule에 level과 관련된 rule이 들어있음 - 이 rule로 인해 LevelAction과 연결
+          LevelAction은 <level> element의 value(요소 꺾인 괄호 사이에 껴들어가 있는 값)을 가져와서
+          Level의 static Level toLevel(String sArg, Level defaultLevel) 메서드 호출
+    cf. LevelAction에 java doc으로 "This action is deprecated. Use the level attribute within the logger element."라고 쓰여져 있다.
+        <level> element를 사용하기보다는 Logger의 attribute를 사용하는 것을 권장하는 듯하다.
+        - Logger의 attribute를 Level 클래스로 바꾸는 것 역시 비슷함.
+          LoggerAction의 public void begin(InterpretationContext ec, String name, Attributes attributes) 메서드 중
+          String levelStr = ec.subst(attributes.getValue(LEVEL_ATTRIBUTE));으로 레벨을 나타내는 문자열을 불러온 후
+          Level level = Level.toLevel(levelStr);로 Level 클래스 가져오는 부분이 있음
+     -->
+
     <root level="INFO"> <!-- 운영에서는 DEBUG보다는 높은 레벨로 -->
         <!--<appender-ref ref="REQUEST1"/>-->
         <!--<appender-ref ref="REQUEST2"/>-->
-        <appender-ref ref="MDC"/>
+        <!--<appender-ref ref="MDC"/>-->
+        <appender-ref ref="WARN"/>
     </root>
 </included>
