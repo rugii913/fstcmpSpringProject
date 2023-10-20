@@ -1,0 +1,48 @@
+<included>
+    <!--<variable file="logback/src/main/resources/logback-variables.properties" />--> <!-- 프로젝트 루트부터의 경로 -->
+    <!-- You may also reference a resource on the class path instead of a file. -->
+    <variable resource="logback-variables.properties" /> <!-- 현재 파일 경로 -->
+    <!--  For historical reasons, the XML element for defining variables is <property> although in logback 1.0.7 and later the element <variable> can be used interchangeably. -->
+    <!--<property resource="logback-variables.properties"/>-->
+    <!-- logback-variables.properties에도 붙인 참고 링크 https://logback.qos.ch/manual/configuration.html#variableSubstitution -->
+
+    <!-- 운영 환경에서는 console appender가 의미가 없다. class를 ConsoleAppender에서 RollingFileAppender로 바꿔준다. -->
+    <appender name="REQUEST1" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/request1.log</file> <!-- (서버 돌면서 기록되고 있는 파일) 파일 단위로 관리하기 시작했으므로 파일 경로와 이름 지정 --> <!-- FileAppender setFile(~) -->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"> <!-- RollingPolicy도 interface, 그 클래스를 지정해줄 수 있다. -->
+            <fileNamePattern>logs/archive/request1.%d{yyyy-MM-dd}_%i.log</fileNamePattern> <!-- (다 기록된 파일) 일정 크기 이상 됐을 때 archive 디렉토리로 들어가는 이름 패턴 %i는 0, 1, 2, ... 순서 -->
+            <maxFileSize>1KB</maxFileSize> <!-- 로그 파일 최대 크기 - 1KB 단위로 파일 생성 -->
+            <maxHistory>30</maxHistory> <!-- 로그 파일 최대 보관 기간(단위: 일) -->
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [REQUEST1] ${LOG_PATTERN}
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader> <!-- 각 파일 헤더에 어떤 패턴으로 출력하고 있는지 표시함 -->
+        </encoder>
+    </appender>
+
+    <appender name="REQUEST2" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/request2.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archive/request2.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [REQUEST2] ${LOG_PATTERN}
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <root level="INFO"> <!-- 운영에서는 DEBUG보다는 높은 레벨로 -->
+        <appender-ref ref="REQUEST1"/>
+        <appender-ref ref="REQUEST2"/>
+    </root>
+</included>
