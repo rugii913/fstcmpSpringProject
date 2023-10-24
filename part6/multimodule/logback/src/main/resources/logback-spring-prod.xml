@@ -80,6 +80,23 @@
             <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>
+
+    <appender name="QUERY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/query.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archive/query.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>10KB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                [QUERY] ${LOG_PATTERN}
+            </pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
     
     <!--
     cf. Level은 클래스이고, <level> 안의 값은 단순 문자열인데, 어떻게 상응하는 Level 인스턴스로 바꿔주는가?
@@ -100,6 +117,16 @@
         <!--<appender-ref ref="REQUEST1"/>-->
         <!--<appender-ref ref="REQUEST2"/>-->
         <!--<appender-ref ref="MDC"/>-->
-        <appender-ref ref="WARN"/>
+        <!--<appender-ref ref="WARN"/>-->
     </root>
+
+    <logger name="SQL_LOG1" level="INFO" additivity="false"> <!--additivity: 상위 로거 속성 상속 여부 옵션, false로 하면 완전히 상위 로거와 상관 없는 고립된 로거 설정을 하게 됨-->
+        <appender-ref ref="QUERY"/>
+    </logger>
+
+    <logger name="SQL_LOG2" level="INFO" additivity="false">
+        <appender-ref ref="QUERY"/>
+    </logger>
+    <!-- 같은 appender를 사용하므로, 같은 파일에 저장되지만, logback-variables.properties에서 가져오고 있는 LOG_PATTERN에서
+         로거의 이름을 명시하고 있으므로, 위의 두 SQL_LOG1 로거에서 찍히는 로그와 SQL_LOG2 로거에서 찍히는 로그를 구분할 수 있음-->
 </included>

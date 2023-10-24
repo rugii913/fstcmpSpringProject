@@ -3,6 +3,7 @@
     <!-- <configuration> </configuration> 빈 configuration으로 두면 스프링 서버 뜰 때 나오는 기본 로그들도 안 나온다. 기존의 logback 설정이 빈 설정으로 덮어씌워졌기 때문 -->
     <!-- 두 resource를 include -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/> <!-- 스프링 기본 로그 설정 include -->
+    <!-- 이 파일에 기본적으로 사용되는 CONSOLE_LOG_PATTERN과 CONSOLE_LOG_CHARSET 등이 정의되어 있다.-->
     <!-- 운영 환경에서는 logback - console appender가 의미가 없다. profile을 나눠 각 환경별로 다른 logback property 설정을 갖도록 해야한다. -->
     <include resource="logback-spring-${spring.profiles.active}.xml"/>
     <!-- 이 파일은 profile별로 나눠진 logback 설정을 총괄하는 일종의 부모 logback 설정 xml 같은 것이라고 생각하면 된다. -->
