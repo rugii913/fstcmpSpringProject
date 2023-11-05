@@ -1,0 +1,22 @@
+명령어 예시
+scp [OPTION] [user@SRC_HOST:]file1 [user@DEST_HOST:]file2
+1. 기본
+- scp file.txt remoteUsername@?.?.?.?:/remote/directory
+2. dest에서 파일명을 다르게 저장
+- scp file.txt remoteUsername@?.?.?.?:/remote/directory/NEW_FILE_NAME.txt
+3. 22번 포트가 아닌 다른 포트 사용하여 전송
+- scp -P 1234 file.txt remoteUsername@?.?.?.?:/remote/directory
+4. 디렉토리 단위로 전송
+- scp -r /local/directory remoteUsername@?.?.?.?:/remote/directory
+
+-----------------
+참고한 것들
+구글, 빙 검색 scp connection refused, 윈도우 netstat 포트 확인, 윈도우 ssh, Add-WindowsCapability, 우분투 ssh 허용
+
+scp port 22: Connection refused 해결방법 https://puham.tistory.com/28
+Windows PowerShell 기본 명령어 익히기 https://butteryoon.github.io/dev/2020/09/11/WindowsPowerShell.html
+★ [Windows] OpenSSH 서버 실행하고 SSH로 접속하는 방법 https://www.lainyzine.com/ko/article/a-summary-of-windows-10-remote-desktop/
+윈도우(Windows) 포트 확인 명령어(NETSTAT) 사용방법 https://byounghee.tistory.com/191
+★★★ <<공식문서>> Windows용 OpenSSH 시작 https://learn.microsoft.com/ko-kr/windows-server/administration/openssh/openssh_install_firstuse?tabs=powershell
+Ubuntu(우분투) - ssh 서버 설치/root 계정 접속 허용하기 https://sseungshin.tistory.com/69
+★ <<위키독스 - 우분투 리눅스 운영 기초>> 03-1. 우분투 리눅스 SSH root 접속 허용하기 https://wikidocs.net/205409
